@@ -61,21 +61,18 @@ class _HomePageState extends State<HomePage> {
                     setState(() {});
                   },
                   icon: Icon(Icons.home, color: AppColors.primary)),
-              GestureDetector(
-                onTap: () {
-                  print("clicou");
-                },
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.add_box_outlined,
-                          color: AppColors.background)),
-                ),
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(5)),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/barcode_scanner');
+                    },
+                    icon: Icon(Icons.add_box_outlined,
+                        color: AppColors.background)),
               ),
               IconButton(
                   onPressed: () {
