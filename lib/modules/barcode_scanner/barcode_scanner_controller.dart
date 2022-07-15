@@ -3,11 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'barcode_scanner_status.dart';
 
 class BarcodeScannerController {
   final statusNotifier =
       ValueNotifier<BarcodeScannerStatus>(BarcodeScannerStatus());
+
   BarcodeScannerStatus get status => statusNotifier.value;
   set status(BarcodeScannerStatus status) => statusNotifier.value = status;
 
@@ -21,9 +23,11 @@ class BarcodeScannerController {
       final response = await availableCameras();
       final camera = response.firstWhere(
           (element) => element.lensDirection == CameraLensDirection.back);
+
       cameraController =
-          CameraController(camera, ResolutionPreset.max, enableAudio: false);
+          CameraController(camera, ResolutionPreset.low, enableAudio: false);
       await cameraController!.initialize();
+
       scanWithCamera();
       listenCamera();
     } catch (e) {
@@ -35,7 +39,7 @@ class BarcodeScannerController {
     try {
       final barcodes = await barcodeScanner.processImage(inputImage);
 
-      var barcode;
+      String? barcode;
       for (Barcode item in barcodes) {
         barcode = item.displayValue;
       }
@@ -53,16 +57,18 @@ class BarcodeScannerController {
   }
 
   void scanWithImagePicker() async {
-    final response = await ImagePicker().getImage(source: ImageSource.gallery);
+    final response = await ImagePicker().pickImage(source: ImageSource.gallery);
     final inputImage = InputImage.fromFilePath(response!.path);
     scannerBarCode(inputImage);
   }
 
   void scanWithCamera() {
-    status = BarcodeScannerStatus.available(cameraController!);
-    Future.delayed(Duration(seconds: 20)).then((value) {
-      if (status.hasBarcode == false)
+    status = BarcodeScannerStatus.available();
+
+    Future.delayed(const Duration(seconds: 20)).then((value) {
+      if (status.hasBarcode == false) {
         status = BarcodeScannerStatus.error("Timeout de leitura de boleto");
+      }
     });
   }
 
@@ -72,17 +78,18 @@ class BarcodeScannerController {
         if (status.stopScanner == false) {
           try {
             final WriteBuffer allBytes = WriteBuffer();
+
             for (Plane plane in cameraImage.planes) {
               allBytes.putUint8List(plane.bytes);
             }
+
             final bytes = allBytes.done().buffer.asUint8List();
             final Size imageSize = Size(
                 cameraImage.width.toDouble(), cameraImage.height.toDouble());
             const InputImageRotation imageRotation =
                 InputImageRotation.rotation0deg;
-            final InputImageFormat inputImageFormat =
-                InputImageFormatValue.fromRawValue(cameraImage.format.raw) ??
-                    InputImageFormat.nv21;
+            const InputImageFormat inputImageFormat = InputImageFormat.nv21;
+
             final planeData = cameraImage.planes.map(
               (Plane plane) {
                 return InputImagePlaneMetadata(
@@ -99,8 +106,10 @@ class BarcodeScannerController {
               inputImageFormat: inputImageFormat,
               planeData: planeData,
             );
+
             final inputImageCamera = InputImage.fromBytes(
                 bytes: bytes, inputImageData: inputImageData);
+
             scannerBarCode(inputImageCamera);
           } catch (e) {
             print(e);
