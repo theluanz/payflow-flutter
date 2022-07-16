@@ -12,6 +12,7 @@ class SetLabelButtons extends StatelessWidget {
   final VoidCallback secondaryOnpressed;
 
   final bool enabledPrimaryColor;
+  final bool enabledSecondaryColor;
 
   const SetLabelButtons(
       {Key? key,
@@ -19,25 +20,43 @@ class SetLabelButtons extends StatelessWidget {
       required this.primaryOnpressed,
       required this.secondaryLabel,
       required this.secondaryOnpressed,
-      this.enabledPrimaryColor = false})
+      this.enabledPrimaryColor = false,
+      this.enabledSecondaryColor = false})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.shape,
-      height: 56,
-      child: Row(
+      color: AppColors.background,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-              child: LabelButton(
-                  label: primaryLabel,
-                  onPressed: primaryOnpressed,
-                  styleText:
-                      enabledPrimaryColor ? TextStyles.buttonPrimary : null)),
-          const DividerVertical(),
-          Expanded(
-              child: LabelButton(
-                  label: secondaryLabel, onPressed: secondaryOnpressed)),
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: AppColors.stroke,
+          ),
+          Container(
+            height: 56,
+            child: Row(
+              children: [
+                Expanded(
+                    child: LabelButton(
+                        label: primaryLabel,
+                        onPressed: primaryOnpressed,
+                        styleText: enabledPrimaryColor
+                            ? TextStyles.buttonPrimary
+                            : null)),
+                const DividerVertical(),
+                Expanded(
+                    child: LabelButton(
+                        label: secondaryLabel,
+                        onPressed: secondaryOnpressed,
+                        styleText: enabledSecondaryColor
+                            ? TextStyles.buttonPrimary
+                            : null)),
+              ],
+            ),
+          ),
         ],
       ),
     );
