@@ -1,11 +1,11 @@
 <h1>PayFlow</h1>
-<p align="center">
+<p>
 Projeto desenvolvido durante a Next Level Week da Rocketseat.<br>
     Trata-se de um aplicativo para gerenciar os boletos.<br>
 </p>
 
 
-<p align="center">
+<p>
   <img alt="PayFlow" title="PayFlow" src=".github/Capa.png" />
 </p>
 
