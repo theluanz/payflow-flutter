@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:payflow/modules/extract/extract_page.dart';
 import 'package:payflow/modules/home/home_controller.dart';
+import 'package:payflow/modules/my_boletos/my_boletos_page.dart';
+import 'package:payflow/shared/model/user_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final UserModel user;
+  const HomePage({Key? key, required this.user}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -12,10 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final homeController = HomeController();
-  final pages = [
-    Container(color: Colors.red),
-    Container(color: Colors.blue),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyles.titleRegular,
                     children: [
                       TextSpan(
-                        text: "Luan",
+                        text: "${widget.user.name}",
                         style: TextStyles.titleBoldBackground,
                       ),
                     ])),
@@ -44,12 +44,21 @@ class _HomePageState extends State<HomePage> {
                   width: 48,
                   decoration: BoxDecoration(
                       color: Colors.black,
+                      image: DecorationImage(
+                          image: NetworkImage(widget.user.photoURL!)),
                       borderRadius: BorderRadius.circular(5)),
                 ),
               ),
             ),
           )),
-      body: pages[homeController.currentPage],
+      body: [
+        MyBoletosPage(
+          key: UniqueKey(),
+        ),
+        ExtractPage(
+          key: UniqueKey(),
+        )
+      ][homeController.currentPage],
       bottomNavigationBar: Container(
           height: 90,
           child: Row(
@@ -60,7 +69,10 @@ class _HomePageState extends State<HomePage> {
                     homeController.setPage(0);
                     setState(() {});
                   },
-                  icon: Icon(Icons.home, color: AppColors.primary)),
+                  icon: Icon(Icons.home,
+                      color: homeController.currentPage == 0
+                          ? AppColors.primary
+                          : AppColors.body)),
               Container(
                 width: 56,
                 height: 56,
@@ -68,8 +80,9 @@ class _HomePageState extends State<HomePage> {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(5)),
                 child: IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/insert_boleto');
+                    onPressed: () async {
+                      await Navigator.pushNamed(context, '/barcode_scanner');
+                      setState(() {});
                     },
                     icon: Icon(Icons.add_box_outlined,
                         color: AppColors.background)),
@@ -79,8 +92,10 @@ class _HomePageState extends State<HomePage> {
                     homeController.setPage(1);
                     setState(() {});
                   },
-                  icon:
-                      Icon(Icons.description_outlined, color: AppColors.body)),
+                  icon: Icon(Icons.description_outlined,
+                      color: homeController.currentPage == 1
+                          ? AppColors.primary
+                          : AppColors.body)),
             ],
           )),
     );
