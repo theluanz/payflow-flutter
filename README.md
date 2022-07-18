@@ -1,3 +1,4 @@
+<h1>PayFlow</h1>
 <p align="center">
 Projeto desenvolvido durante a Next Level Week da Rocketseat.<br>
     Trata-se de um aplicativo para gerenciar os boletos.<br>
@@ -16,7 +17,7 @@ Projeto desenvolvido durante a Next Level Week da Rocketseat.<br>
 
 
 
-<h2>Functionalities 🛠️</h2>
+<h2>Funcionalidades 🛠️</h2>
 
    <p>
    
