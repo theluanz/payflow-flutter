@@ -1,16 +1,48 @@
-# payflow
+<p align="center">
+Projeto desenvolvido durante a Next Level Week da Rocketseat.<br>
+    Trata-se de um aplicativo para gerenciar os boletos.<br>
+</p>
 
-A new Flutter project.
 
-## Getting Started
+<p align="center">
+  <img alt="PayFlow" title="PayFlow" src=".github/Capa.png" />
+</p>
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  <a href="https://www.figma.com/file/kLK7FYnWKMoN68sQXcSniu/PayFlow">
+    Link do Layout no Figma
+  </a> 📱
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+<h2>Functionalities 🛠️</h2>
+
+   <p>
+   
+- Gerenciamento de boletos
+- Login com Google
+- Firebase MLKit (Leitura do código do boleto)
+- Utilização da Camera
+- Animações!
+
+</p>
+
+<h2>Como rodar?</h2>
+
+Configure o ambiente flutter no seu computador: <a href="https://flutter.dev/docs/get-started/install">Clique aqui.</a>
+Crie uma conta no Firebase e siga os passos de como integrar com o app.
+
+```
+- Clone this repository:
+$ git clone https://github.com/theluanz/payflow-flutter
+
+- Enter in directory:
+$ cd payflow
+
+- For install dependencies:
+$ flutter pub get
+
+- Run the app:
+$ flutter run
+```
